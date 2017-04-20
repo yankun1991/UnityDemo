@@ -13,11 +13,13 @@ namespace UnityDemo
 
         public Program()
         {
+            #region 类型的配置容器注册
             container = new UnityContainer();
             container.RegisterType<IMyObject, MyObjectFirstImplementation>("MyObjectFirstImplementation");
             container.RegisterType<IMyObject, MyObjectSecondImplementation>("MyObjectSecondImplementation");
-            container.RegisterType<IMyObject, MyObjectThirdImplementation>();
-           // container.RegisterType<IMyObject, MyObjectFirstImplementation>();
+            container.RegisterType<IMyObject, MyObjectThirdImplementation>(); 
+            #endregion
+            // container.RegisterType<IMyObject, MyObjectFirstImplementation>();
 
         }
         static void Main(string[] args)
@@ -36,6 +38,16 @@ namespace UnityDemo
             Console.WriteLine(myObj2.DoSomething());
             var p = new Program();
             Console.WriteLine(p.Add(1, 8, 3, 4, 5, 6));
+
+
+            #region 已有对象实例的配置容器注册
+            IUnityContainer myContainer = new UnityContainer();
+            Program myExistingObject = new Program();
+            myContainer.RegisterInstance<Program>(myExistingObject);
+            Program myServiceInstance = myContainer.Resolve<Program>();
+            Console.WriteLine(myServiceInstance.Add(1, 8, 3, 4, 5, 6)); 
+            #endregion
+
             Console.ReadKey();
         }
 
